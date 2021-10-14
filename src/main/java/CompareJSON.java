@@ -25,11 +25,11 @@ public record CompareJSON(JSONObject jsonObject1, JSONObject jsonObject2) {
         return myMap;
     }
 
-    public HashMap<String, String[]> checkValues() {
-        HashMap<String, String[]> myMap = new HashMap<>();
+    public HashMap<String, Object[]> checkValues() {
+        HashMap<String, Object[]> myMap = new HashMap<>();
         for (String key : jsonObject1.keySet()) {
-            if (jsonObject2.has(key) && !jsonObject1.getString(key).equals(jsonObject2.getString(key))) {
-                String[] differenceArray = {jsonObject1.getString(key), jsonObject2.getString(key)};
+            if (jsonObject2.has(key) && !jsonObject1.get(key).equals(jsonObject2.get(key))) {
+                Object[] differenceArray = {jsonObject1.get(key), jsonObject2.get(key)};
                 myMap.put(key, differenceArray);
             }
         }
@@ -44,7 +44,7 @@ public record CompareJSON(JSONObject jsonObject1, JSONObject jsonObject2) {
                 System.out.println("\u2022" + value);
             }
         }
-        HashMap<String, String[]> differentValues = checkValues();
+        HashMap<String, Object[]> differentValues = checkValues();
         for (String key : differentValues.keySet()) {
             System.out.println("\nDifference in \"" + key + "\"\nExpected: \"" + differentValues.get(key)[0]
                     + "\" But was: \"" + differentValues.get(key)[1] + "\"");
